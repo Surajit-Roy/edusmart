@@ -4,13 +4,13 @@ A modern and scalable School Management System built using Flutter & Firebase wi
 
 ## 🚀 Features
 
-✅ Multi-Role Authentication (Admin, Teacher, Student)
-✅ Firebase Integration (Auth, Firestore, Storage)
-✅ MVVM Architecture with Riverpod
-✅ Localization Support (English, Bengali, Hindi)
-✅ Modern UI/UX with Light & Dark Themes
-✅ Secure Firestore Rules
-✅ Push Notifications
+✅ Multi-Role Authentication (Admin, Teacher, Student)<br>
+✅ Firebase Integration (Auth, Firestore, Storage)<br>
+✅ MVVM Architecture with Riverpod<br>
+✅ Localization Support (English, Bengali, Hindi)<br>
+✅ Modern UI/UX with Light & Dark Themes<br>
+✅ Secure Firestore Rules<br>
+✅ Push Notifications<br>
 ✅ Reusable UI Components & Clean Code Structure
 
 ## 📂 Project Structure
