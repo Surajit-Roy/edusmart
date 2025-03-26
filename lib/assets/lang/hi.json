@@ -1,0 +1,15 @@
+{
+  "app_title": "स्कूल प्रबंधन",
+  "welcome": "स्वागत है",
+  "login": "लॉगिन करें",
+  "register": "रजिस्टर करें",
+  "loading": "लोड हो रहा है...",
+  "error": "गलती",
+  "login_successful": "लॉग इन सफल!",
+  "email": "ईमेल",
+  "password": "पासवर्ड",
+  "forgot_pass": "पासवर्ड भूल गए?",
+  "register_success": "सफल पंजीकरण!",
+  "full_name": "पूरा नाम",
+  "forgot_desc": "पासवर्ड रीसेट लिंक आपके ईमेल पर भेजा जाएगा।"
+}

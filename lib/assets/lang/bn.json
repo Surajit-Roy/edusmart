@@ -3,5 +3,13 @@
   "welcome": "স্বাগতম",
   "login": "লগইন",
   "register": "নিবন্ধন",
-  "loading": "লোড হচ্ছে..."
+  "loading": "লোড হচ্ছে...",
+  "error": "ভুল",
+  "login_successful": "লগইন সফল!",
+  "email": "ইমেইল",
+  "password": "পাসওয়ার্ড",
+  "forgot_pass": "পাসওয়ার্ড ভুলে গেছেন?",
+  "register_success": "নিবন্ধন সফল!",
+  "full_name": "পুরো নাম",
+  "forgot_desc": "পাসওয়ার্ড রিসেট করার লিঙ্ক আপনার ইমেইলে পাঠানো হবে।"
 }

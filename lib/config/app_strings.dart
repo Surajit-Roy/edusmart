@@ -6,7 +6,7 @@ class AppStrings {
   static const supportedLocales = [
     Locale('en', ''),
     Locale('bn', ''),
-    Locale('hn', ''),
+    Locale('hi', ''),
   ];
 
   static Future<Map<String, dynamic>> loadLocalizedStrings(

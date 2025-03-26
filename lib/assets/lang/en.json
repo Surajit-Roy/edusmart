@@ -3,5 +3,13 @@
   "welcome": "Welcome",
   "login": "Login",
   "register": "Register",
-  "loading": "Loading..."
+  "loading": "Loading...",
+  "error": "Error",
+  "login_successful": "Login Successful!",
+  "email": "Email",
+  "password": "Password",
+  "forgot_pass": "Forgot Password?",
+  "register_success": "Registration Successful!",
+  "full_name": "Full Name",
+  "forgot_desc": "Reset password link will be sent to your email."
 }
