@@ -1,6 +1,7 @@
 import 'package:edusmart/config/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'app.dart';
 import 'config/app_strings.dart';
 
@@ -12,7 +13,7 @@ void main() async {
   // await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await AppStrings.loadAllLanguages();
   // await NotificationService.initialize();
-  runApp(const MyApp());
+  runApp(ProviderScope(child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {

@@ -26,4 +26,8 @@ class AuthRepository {
   Stream<User?> authStateChanges() {
     return _auth.authStateChanges();
   }
+  
+  User? getCurrentUser() {
+    return _auth.currentUser;
+  }
 }

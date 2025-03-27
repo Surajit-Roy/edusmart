@@ -1,7 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:edusmart/config/app_strings.dart';
 import 'package:edusmart/core/utils/validators.dart';
+import 'package:edusmart/data/models/user_model.dart';
+import 'package:edusmart/providers/auth_provider.dart';
+import 'package:edusmart/providers/user_provider.dart';
+import 'package:edusmart/routes/app_routes.dart';
 import 'package:edusmart/widgets/custom_button.dart';
 import 'package:edusmart/widgets/custom_textfield.dart';
+import 'package:edusmart/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -18,22 +24,88 @@ class _RegisterFormState extends ConsumerState<RegisterForm> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  void _register() async {
-    if (_formKey.currentState!.validate()) {
-      try {
-        // Implement your registration logic here
+  bool _isLoading = false;
+
+  Future<void> _register() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    final authRepo = ref.read(authRepositoryProvider);
+    final userRepo = ref.read(userRepositoryProvider);
+
+    final fullName = _nameController.text.trim();
+    final email = _emailController.text.trim();
+    final password = _passwordController.text.trim();
+
+    final arguments =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    final String userRole = arguments?['role'] ?? 'student';
+
+    setState(() => _isLoading = true);
+
+    try {
+      // Check if email already exists in Firestore
+      final existingUser =
+          await FirebaseFirestore.instance
+              .collection('users')
+              .where('email', isEqualTo: email)
+              .get();
+
+      if (existingUser.docs.isNotEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(AppStrings.getText(context, "emailAlreadyRegister")),
+          ),
+        );
+        setState(() => _isLoading = false);
+        return;
+      }
+
+      // Register user in Firebase Auth
+      final user = await authRepo.register(email, password);
+      if (user != null) {
+        // Store user details in Firestore
+        final newUser = UserModel(
+          id: user.uid,
+          name: fullName,
+          email: email,
+          role: userRole,
+        );
+        await userRepo.createUser(newUser);
+
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(AppStrings.getText(context, "register_success")),
           ),
         );
-      } catch (e) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text("Error: ${e.toString()}")));
+
+        // Navigate to Login Screen
+        Navigator.pushReplacementNamed(context, AppRoutes.login);
       }
+    } catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Error: ${e.toString()}")));
+    } finally {
+      setState(() => _isLoading = false);
     }
   }
+
+  // void _register() async {
+  //   if (_formKey.currentState!.validate()) {
+  //     try {
+  //       // Implement your registration logic here
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         SnackBar(
+  //           content: Text(AppStrings.getText(context, "register_success")),
+  //         ),
+  //       );
+  //     } catch (e) {
+  //       ScaffoldMessenger.of(
+  //         context,
+  //       ).showSnackBar(SnackBar(content: Text("Error: ${e.toString()}")));
+  //     }
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -66,10 +138,12 @@ class _RegisterFormState extends ConsumerState<RegisterForm> {
               validator: Validators.validatePassword,
             ),
             const SizedBox(height: 24),
-            EduSmartButton(
-              text: AppStrings.getText(context, "register"),
-              onPressed: _register,
-            ),
+            _isLoading
+                ? EduSmartLoadingIndicator()
+                : EduSmartButton(
+                  text: AppStrings.getText(context, "register"),
+                  onPressed: _register,
+                ),
           ],
         ),
       ),

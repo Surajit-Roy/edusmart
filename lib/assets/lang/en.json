@@ -11,5 +11,6 @@
   "forgot_pass": "Forgot Password?",
   "register_success": "Registration Successful!",
   "full_name": "Full Name",
-  "forgot_desc": "Reset password link will be sent to your email."
+  "forgot_desc": "Reset password link will be sent to your email.",
+  "emailAlreadyRegister": "Email already registered"
 }

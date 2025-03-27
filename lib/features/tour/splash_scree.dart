@@ -1,4 +1,5 @@
 import 'package:edusmart/config/firebase_options.dart';
+import 'package:edusmart/providers/auth_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -29,10 +30,17 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       debugPrint("Firebase Initialization Error: $e");
     }
 
+    final authRepo = ref.read(authRepositoryProvider);
+    final user = authRepo.getCurrentUser();
     // Navigate after a delay
-    Future.delayed(const Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 2), () {
       if (mounted) {
-        Navigator.pushReplacementNamed(context, AppRoutes.navigationCard);
+        if (user != null) {
+          // Navigate to Login Screen if user is registered
+          Navigator.pushReplacementNamed(context, AppRoutes.login);
+        } else {
+          Navigator.pushReplacementNamed(context, AppRoutes.navigationCard);
+        }
       }
     });
   }
