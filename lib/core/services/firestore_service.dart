@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:edusmart/core/error_handling/network_exceptions.dart';
 
 class FirestoreService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -19,7 +20,7 @@ class FirestoreService {
     try {
       await _firestore.collection('users').doc(userId).update(updates);
     } catch (e) {
-      throw Exception("Failed to update user: $e");
+      throw NetworkExceptions.handleException(e);
     }
   }
 
@@ -27,7 +28,7 @@ class FirestoreService {
     try {
       await _firestore.collection('users').doc(userId).delete();
     } catch (e) {
-      throw Exception("Failed to delete user: $e");
+      throw NetworkExceptions.handleException(e);
     }
   }
 }
