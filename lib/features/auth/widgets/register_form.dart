@@ -43,29 +43,29 @@ class _RegisterFormState extends ConsumerState<RegisterForm> {
     setState(() => _isLoading = true);
 
     try {
-      // Check if email already exists in Firestore
-      final existingUser =
-          await FirebaseFirestore.instance
-              .collection('users')
-              .where('email', isEqualTo: email)
-              .get();
-
-      if (existingUser.docs.isNotEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(AppStrings.getText(context, "emailAlreadyRegister")),
-          ),
-        );
-        setState(() => _isLoading = false);
-        return;
-      }
-
       // Register user in Firebase Auth
-      final user = await authRepo.register(email, password);
+      final user = await authRepo.register(fullName, email, password, userRole);
+      
       if (user != null) {
-        // Store user details in Firestore
+        // Step 2: Check if user document already exists in Firestore
+        final userDoc = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user.id) // Directly check the document instead of querying
+            .get();
+
+        if (userDoc.exists) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(AppStrings.getText(context, "emailAlreadyRegister")),
+            ),
+          );
+          setState(() => _isLoading = false);
+          return;
+        }
+
+        // Step 3: Store user details in Firestore
         final newUser = UserModel(
-          id: user.uid,
+          id: user.id,
           name: fullName,
           email: email,
           role: userRole,
@@ -78,7 +78,7 @@ class _RegisterFormState extends ConsumerState<RegisterForm> {
           ),
         );
 
-        // Navigate to Login Screen
+        // Step 4: Navigate to Login Screen
         Navigator.pushReplacementNamed(context, AppRoutes.login);
       }
     } catch (e) {
