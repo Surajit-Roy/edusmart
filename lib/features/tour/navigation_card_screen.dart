@@ -49,7 +49,7 @@ class NavigationCardScreen extends StatelessWidget {
       onTap: () {
         Navigator.pushNamed(
           context,
-          AppRoutes.login,
+          AppRoutes.register,
           arguments: {'role': role},
         );
       },

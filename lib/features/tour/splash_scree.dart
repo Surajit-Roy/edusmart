@@ -1,3 +1,5 @@
+import 'package:edusmart/config/firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../routes/app_routes.dart';
@@ -13,8 +15,25 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    _initializeFirebase();
+  }
+
+  Future<void> _initializeFirebase() async {
+    try {
+      if (Firebase.apps.isEmpty) {
+        await Firebase.initializeApp(
+          options: DefaultFirebaseOptions.currentPlatform,
+        );
+      }
+    } catch (e) {
+      debugPrint("Firebase Initialization Error: $e");
+    }
+
+    // Navigate after a delay
     Future.delayed(const Duration(seconds: 3), () {
-      Navigator.pushReplacementNamed(context, AppRoutes.navigationCard);
+      if (mounted) {
+        Navigator.pushReplacementNamed(context, AppRoutes.navigationCard);
+      }
     });
   }
 

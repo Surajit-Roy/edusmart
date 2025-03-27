@@ -14,4 +14,16 @@ class AuthRepository {
   Future<void> logout() async {
     await _auth.signOut();
   }
+
+  Future<User?> register(String email, String password) async {
+    UserCredential credential = await _auth.createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+    return credential.user;
+  }
+
+  Stream<User?> authStateChanges() {
+    return _auth.authStateChanges();
+  }
 }
