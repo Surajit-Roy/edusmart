@@ -53,7 +53,7 @@ class _RegisterFormState extends ConsumerState<RegisterForm> {
             .doc(user.id) // Directly check the document instead of querying
             .get();
 
-        if (userDoc.exists) {
+        if (!userDoc.exists) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(AppStrings.getText(context, "emailAlreadyRegister")),

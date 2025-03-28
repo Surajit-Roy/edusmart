@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:edusmart/core/error_handling/network_exceptions.dart';
 import 'package:edusmart/data/models/user_model.dart';
 import 'package:edusmart/data/repositories/user_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
