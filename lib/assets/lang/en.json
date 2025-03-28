@@ -13,5 +13,9 @@
   "full_name": "Full Name",
   "forgot_desc": "Reset password link will be sent to your email.",
   "emailAlreadyRegister": "Email already registered",
-  "logout_successful": "Logout Successful!"
+  "logout_successful": "Logout Successful!",
+  "exit": "Exit",
+  "exit_msg": "Are you sure you want to exit?",
+  "signin": "Sign in",
+  "alreadyAcc": "Already have an account? "
 }

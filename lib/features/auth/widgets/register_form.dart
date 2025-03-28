@@ -5,6 +5,7 @@ import 'package:edusmart/routes/app_routes.dart';
 import 'package:edusmart/widgets/custom_button.dart';
 import 'package:edusmart/widgets/custom_textfield.dart';
 import 'package:edusmart/widgets/loading_indicator.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -41,14 +42,14 @@ class _RegisterFormState extends ConsumerState<RegisterForm> {
           .read(authViewModelProvider)
           .register(fullName, email, password, userRole);
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(AppStrings.getText(context, "register_success")),
-          ),
-        );
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(AppStrings.getText(context, "register_success")),
+        ),
+      );
 
-        // Navigate to Login Screen
-        Navigator.pushReplacementNamed(context, AppRoutes.login);
+      // Navigate to Login Screen
+      Navigator.pushReplacementNamed(context, AppRoutes.login);
     } catch (e) {
       ScaffoldMessenger.of(
         context,
@@ -91,10 +92,41 @@ class _RegisterFormState extends ConsumerState<RegisterForm> {
             const SizedBox(height: 24),
             _isLoading
                 ? EduSmartLoadingIndicator()
-                : EduSmartButton(
-                  text: AppStrings.getText(context, "register"),
-                  onPressed: _register,
+                : SizedBox(
+                  width: double.infinity,
+                  child: EduSmartButton(
+                    txtColor: Colors.white,
+                    bgColor: Colors.lightBlue,
+                    text: AppStrings.getText(context, "register"),
+                    onPressed: _register,
+                  ),
                 ),
+            const SizedBox(height: 16),
+            RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: AppStrings.getText(context, "alreadyAcc"),
+                    style: const TextStyle(fontSize: 16, color: Colors.black),
+                  ),
+                  TextSpan(
+                    text: AppStrings.getText(context, "signin"),
+                    style: const TextStyle(
+                      fontSize: 16,
+                      color: Colors.lightBlue,
+                    ),
+                    recognizer:
+                        TapGestureRecognizer()
+                          ..onTap = () {
+                            Navigator.pushReplacementNamed(
+                              context,
+                              AppRoutes.login,
+                            );
+                          },
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),

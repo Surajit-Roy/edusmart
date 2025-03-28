@@ -1,8 +1,8 @@
 import 'package:edusmart/config/app_strings.dart';
 import 'package:edusmart/core/utils/validators.dart';
 import 'package:edusmart/features/auth/viewmodel/auth_viewmodel.dart';
-import 'package:edusmart/features/auth/widgets/forgot_password_dialog.dart';
 import 'package:edusmart/widgets/custom_button.dart';
+import 'package:edusmart/widgets/custom_dialog.dart';
 import 'package:edusmart/widgets/custom_textfield.dart';
 import 'package:edusmart/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
@@ -24,46 +24,41 @@ class _LoginFormState extends ConsumerState<LoginForm> {
   //login
   void _login() async {
     if (!_formKey.currentState!.validate()) return;
-      try {
-        setState(() => _isLoading = true);
-        await ref
-            .read(authViewModelProvider)
-            .login(
-              _emailController.text.trim(),
-              _passwordController.text.trim(),
-            );
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(AppStrings.getText(context, "login_successful")),
-          ),
-        );
-      } catch (e) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text("Error: ${e.toString()}")));
-      } finally {
-        setState(() => _isLoading = false);
-      }
+    try {
+      setState(() => _isLoading = true);
+      await ref
+          .read(authViewModelProvider)
+          .login(_emailController.text.trim(), _passwordController.text.trim());
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(AppStrings.getText(context, "login_successful")),
+        ),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Error: ${e.toString()}")));
+    } finally {
+      setState(() => _isLoading = false);
+    }
   }
 
   //logout
   void _logout() async {
-  try {
-    await ref.read(authViewModelProvider).logout();
+    try {
+      await ref.read(authViewModelProvider).logout();
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(AppStrings.getText(context, "logout_successful")),
-      ),
-    );
-
-  } catch (e) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text("Error: ${e.toString()}")),
-    );
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(AppStrings.getText(context, "logout_successful")),
+        ),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Error: ${e.toString()}")));
+    }
   }
-}
-
 
   @override
   Widget build(BuildContext context) {
@@ -89,17 +84,30 @@ class _LoginFormState extends ConsumerState<LoginForm> {
               validator: Validators.validatePassword,
             ),
             const SizedBox(height: 24),
-            _isLoading ? EduSmartLoadingIndicator() :
-            EduSmartButton(
-              text: AppStrings.getText(context, "login"),
-              onPressed: _login,
-            ),
+            _isLoading
+                ? EduSmartLoadingIndicator()
+                : SizedBox(
+                  width: double.infinity,
+                  child: EduSmartButton(
+                    bgColor: Colors.lightBlue,
+                    txtColor: Colors.white,
+                    text: AppStrings.getText(context, "login"),
+                    onPressed: _login,
+                  ),
+                ),
             const SizedBox(height: 12),
-            TextButton(
+            EduSmartTextButton(
+              text: AppStrings.getText(context, "forgot_pass"),
+              color: Colors.lightBlue,
               onPressed: () {
-                showForgotPasswordDialog(context);
-              }, // Implement forgot password logic
-              child: Text(AppStrings.getText(context, "forgot_pass")),
+                EduSmartDialog(
+                  context: context,
+                  title: AppStrings.getText(context, "forgot_pass"),
+                  message: AppStrings.getText(context, "forgot_desc"),
+                  dialogType: DialogType.warning,
+                  onConfirm: () {},
+                );
+              },
             ),
           ],
         ),

@@ -39,11 +39,15 @@ import 'package:flutter/material.dart';
 class EduSmartButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
+  final Color bgColor;
+  final Color txtColor;
   final bool isLoading;
 
   const EduSmartButton({
     Key? key,
     required this.text,
+    required this.bgColor,
+    required this.txtColor,
     required this.onPressed,
     this.isLoading = false,
   }) : super(key: key);
@@ -53,6 +57,7 @@ class EduSmartButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: isLoading ? null : onPressed,
       style: ElevatedButton.styleFrom(
+        backgroundColor: bgColor,
         padding: EdgeInsets.symmetric(vertical: 14),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
@@ -63,7 +68,32 @@ class EduSmartButton extends StatelessWidget {
                 width: 20,
                 child: CircularProgressIndicator(strokeWidth: 2),
               )
-              : Text(text, style: TextStyle(fontSize: 16)),
+              : Text(text, style: TextStyle(fontSize: 16, color: txtColor)),
+    );
+  }
+}
+
+//Text Button
+class EduSmartTextButton extends StatelessWidget {
+  final String text;
+  final Color color;
+  final VoidCallback onPressed;
+
+  const EduSmartTextButton({
+    super.key,
+    required this.text,
+    required this.color,
+    required this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: onPressed,
+      style: TextButton.styleFrom(
+        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+      ),
+      child: Text(text, style: TextStyle(fontSize: 16, color: color)),
     );
   }
 }
