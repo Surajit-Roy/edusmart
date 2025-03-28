@@ -1,9 +1,11 @@
 import 'package:edusmart/config/firebase_options.dart';
+import 'package:edusmart/core/utils/images.dart';
 import 'package:edusmart/providers/auth_provider.dart';
 import 'package:edusmart/widgets/loading_indicator.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lottie/lottie.dart';
 import '../../../routes/app_routes.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
@@ -61,9 +63,14 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Image.asset('assets/images/school_logo.png', height: 120),
+              Lottie.asset(
+                splash,
+                width: 250, // Adjust size as needed
+                height: 250,
+                fit: BoxFit.cover,
+              ),
               const SizedBox(height: 20),
-              const EduSmartLoadingIndicator(),
+              Text("EduSmart", style: TextStyle(fontSize: 22, color: Colors.white, fontWeight: FontWeight.bold),)
             ],
           ),
         ),
