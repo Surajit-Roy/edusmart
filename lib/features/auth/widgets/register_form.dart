@@ -1,4 +1,5 @@
 import 'package:edusmart/config/app_strings.dart';
+import 'package:edusmart/core/utils/images.dart';
 import 'package:edusmart/core/utils/validators.dart';
 import 'package:edusmart/features/auth/viewmodel/auth_viewmodel.dart';
 import 'package:edusmart/routes/app_routes.dart';
@@ -8,6 +9,7 @@ import 'package:edusmart/widgets/loading_indicator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lottie/lottie.dart';
 
 class RegisterForm extends ConsumerStatefulWidget {
   const RegisterForm({super.key});
@@ -63,66 +65,79 @@ class _RegisterFormState extends ConsumerState<RegisterForm> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: Form(
-        key: _formKey,
+      child: SingleChildScrollView(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            EduSmartField(
-              controller: _nameController,
-              hintText: AppStrings.getText(context, "full_name"),
-              prefixIcon: Icons.person,
-              validator: Validators.validateName,
-            ),
-            const SizedBox(height: 16),
-            EduSmartField(
-              controller: _emailController,
-              hintText: AppStrings.getText(context, "email"),
-              prefixIcon: Icons.email,
-              validator: Validators.validateEmail,
-            ),
-            const SizedBox(height: 16),
-            EduSmartField(
-              controller: _passwordController,
-              hintText: AppStrings.getText(context, "password"),
-              prefixIcon: Icons.lock,
-              isPassword: true,
-              validator: Validators.validatePassword,
-            ),
-            const SizedBox(height: 24),
-            _isLoading
-                ? EduSmartLoadingIndicator()
-                : SizedBox(
-                  width: double.infinity,
-                  child: EduSmartButton(
-                    txtColor: Colors.white,
-                    bgColor: Colors.lightBlue,
-                    text: AppStrings.getText(context, "register"),
-                    onPressed: _register,
-                  ),
-                ),
-            const SizedBox(height: 16),
-            RichText(
-              text: TextSpan(
+            SizedBox(height: 300, child: Lottie.asset(register)),
+            const SizedBox(height: 5,),
+            Text(AppStrings.getText(context, "registerhere"), style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
+            const SizedBox(height: 30,),
+            Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  TextSpan(
-                    text: AppStrings.getText(context, "alreadyAcc"),
-                    style: const TextStyle(fontSize: 16, color: Colors.black),
+                  EduSmartField(
+                    controller: _nameController,
+                    hintText: AppStrings.getText(context, "full_name"),
+                    prefixIcon: Icons.person,
+                    validator: Validators.validateName,
                   ),
-                  TextSpan(
-                    text: AppStrings.getText(context, "signin"),
-                    style: const TextStyle(
-                      fontSize: 16,
-                      color: Colors.lightBlue,
+                  const SizedBox(height: 16),
+                  EduSmartField(
+                    controller: _emailController,
+                    hintText: AppStrings.getText(context, "email"),
+                    prefixIcon: Icons.email,
+                    validator: Validators.validateEmail,
+                  ),
+                  const SizedBox(height: 16),
+                  EduSmartField(
+                    controller: _passwordController,
+                    hintText: AppStrings.getText(context, "password"),
+                    prefixIcon: Icons.lock,
+                    isPassword: true,
+                    validator: Validators.validatePassword,
+                  ),
+                  const SizedBox(height: 24),
+                  _isLoading
+                      ? EduSmartLoadingIndicator()
+                      : SizedBox(
+                        width: double.infinity,
+                        child: EduSmartButton(
+                          txtColor: Colors.white,
+                          bgColor: Colors.lightBlue,
+                          text: AppStrings.getText(context, "register"),
+                          onPressed: _register,
+                        ),
+                      ),
+                  const SizedBox(height: 16),
+                  RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: AppStrings.getText(context, "alreadyAcc"),
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.black,
+                          ),
+                        ),
+                        TextSpan(
+                          text: AppStrings.getText(context, "signin"),
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.lightBlue,
+                          ),
+                          recognizer:
+                              TapGestureRecognizer()
+                                ..onTap = () {
+                                  Navigator.pushReplacementNamed(
+                                    context,
+                                    AppRoutes.login,
+                                  );
+                                },
+                        ),
+                      ],
                     ),
-                    recognizer:
-                        TapGestureRecognizer()
-                          ..onTap = () {
-                            Navigator.pushReplacementNamed(
-                              context,
-                              AppRoutes.login,
-                            );
-                          },
                   ),
                 ],
               ),

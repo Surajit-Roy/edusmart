@@ -1,4 +1,5 @@
 import 'package:edusmart/config/app_strings.dart';
+import 'package:edusmart/core/utils/images.dart';
 import 'package:edusmart/core/utils/validators.dart';
 import 'package:edusmart/features/auth/viewmodel/auth_viewmodel.dart';
 import 'package:edusmart/widgets/custom_button.dart';
@@ -7,6 +8,7 @@ import 'package:edusmart/widgets/custom_textfield.dart';
 import 'package:edusmart/widgets/loading_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lottie/lottie.dart';
 
 class LoginForm extends ConsumerStatefulWidget {
   const LoginForm({super.key});
@@ -61,57 +63,72 @@ class _LoginFormState extends ConsumerState<LoginForm> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Form(
-        key: _formKey,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            EduSmartField(
-              controller: _emailController,
-              hintText: AppStrings.getText(context, "email"),
-              prefixIcon: Icons.email,
-              validator: Validators.validateEmail,
-            ),
-            const SizedBox(height: 16),
-            EduSmartField(
-              controller: _passwordController,
-              hintText: AppStrings.getText(context, "password"),
-              prefixIcon: Icons.lock,
-              isPassword: true,
-              validator: Validators.validatePassword,
-            ),
-            const SizedBox(height: 24),
-            _isLoading
-                ? EduSmartLoadingIndicator()
-                : SizedBox(
-                  width: double.infinity,
-                  child: EduSmartButton(
-                    bgColor: Colors.lightBlue,
-                    txtColor: Colors.white,
-                    text: AppStrings.getText(context, "login"),
-                    onPressed: _login,
-                  ),
+Widget build(BuildContext context) {
+  return Padding(
+    padding: const EdgeInsets.all(16.0),
+    child: SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          // Lottie Animation for Modern Look
+          SizedBox(
+            height: 300,
+            child: Lottie.asset(login),
+          ),
+          Text(AppStrings.getText(context, "welcomeback"), style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),),
+          const SizedBox(height: 20),
+          Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                EduSmartField(
+                  controller: _emailController,
+                  hintText: AppStrings.getText(context, "email"),
+                  prefixIcon: Icons.email,
+                  validator: Validators.validateEmail,
                 ),
-            const SizedBox(height: 12),
-            EduSmartTextButton(
-              text: AppStrings.getText(context, "forgot_pass"),
-              color: Colors.lightBlue,
-              onPressed: () {
-                EduSmartDialog(
-                  context: context,
-                  title: AppStrings.getText(context, "forgot_pass"),
-                  message: AppStrings.getText(context, "forgot_desc"),
-                  dialogType: DialogType.warning,
-                  onConfirm: () {},
-                );
-              },
+                const SizedBox(height: 16),
+                EduSmartField(
+                  controller: _passwordController,
+                  hintText: AppStrings.getText(context, "password"),
+                  prefixIcon: Icons.lock,
+                  isPassword: true,
+                  validator: Validators.validatePassword,
+                ),
+                const SizedBox(height: 24),
+
+                _isLoading
+                    ? EduSmartLoadingIndicator()
+                    : SizedBox(
+                        width: double.infinity,
+                        child: EduSmartButton(
+                          bgColor: Colors.lightBlue,
+                          txtColor: Colors.white,
+                          text: AppStrings.getText(context, "login"),
+                          onPressed: _login,
+                        ),
+                      ),
+                const SizedBox(height: 12),
+
+                EduSmartTextButton(
+                  text: AppStrings.getText(context, "forgot_pass"),
+                  color: Colors.lightBlue,
+                  onPressed: () {
+                    EduSmartDialog(
+                      context: context,
+                      title: AppStrings.getText(context, "forgot_pass"),
+                      message: AppStrings.getText(context, "forgot_desc"),
+                      dialogType: DialogType.warning,
+                      onConfirm: () {},
+                    );
+                  },
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
-    );
-  }
+    ),
+  );
+}
 }

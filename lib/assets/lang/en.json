@@ -17,5 +17,7 @@
   "exit": "Exit",
   "exit_msg": "Are you sure you want to exit?",
   "signin": "Sign in",
-  "alreadyAcc": "Already have an account? "
+  "alreadyAcc": "Already have an account? ",
+  "registerhere": "Register Here",
+  "welcomeback": "Welcome Back"
 }
