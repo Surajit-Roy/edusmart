@@ -12,5 +12,6 @@
   "register_success": "নিবন্ধন সফল!",
   "full_name": "পুরো নাম",
   "forgot_desc": "পাসওয়ার্ড রিসেট করার লিঙ্ক আপনার ইমেইলে পাঠানো হবে।",
-  "emailAlreadyRegister": "ইমেল ইতিমধ্যে নিবন্ধিত"
+  "emailAlreadyRegister": "ইমেল ইতিমধ্যে নিবন্ধিত",
+  "logout_successful": "লগআউট সফল!"
 }

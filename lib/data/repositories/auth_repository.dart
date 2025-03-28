@@ -1,11 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:edusmart/data/models/user_model.dart';
-import 'package:edusmart/data/repositories/user_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthRepository {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final UserRepository _userRepository = UserRepository();
 
   // Future<User?> login(String email, String password) async {
   //   try {
@@ -35,8 +33,8 @@ class AuthRepository {
   //   }
   // }
 
-   // ✅ Login and Fetch User Data
-  Future<UserModel?> login(String email, String password) async {
+  // Login and Fetch User ID
+  Future<String?> login(String email, String password) async {
     try {
       UserCredential credential = await _auth.signInWithEmailAndPassword(
         email: email,
@@ -44,9 +42,10 @@ class AuthRepository {
       );
 
       User? user = credential.user;
+
       if (user != null) {
-        // ✅ Fetch user data from Firestore
-        return await _userRepository.getUserById(user.uid);
+        // Fetch user id from Firestore
+        return user.uid;
       }
       return null;
     } on FirebaseAuthException catch (e) {
@@ -54,8 +53,13 @@ class AuthRepository {
     }
   }
 
-  // ✅ Register User with Dynamic Data
-  Future<UserModel?> register(String name, String email, String password, String role) async {
+  // Register User with Dynamic Data
+  Future<UserModel?> register(
+    String name,
+    String email,
+    String password,
+    String role,
+  ) async {
     try {
       UserCredential credential = await _auth.createUserWithEmailAndPassword(
         email: email,
@@ -65,7 +69,9 @@ class AuthRepository {
       User? user = credential.user;
       if (user == null) {
         throw FirebaseAuthException(
-            code: "ERROR_UNKNOWN", message: "User registration failed.");
+          code: "ERROR_UNKNOWN",
+          message: "User registration failed.",
+        );
       }
       String userId = user.uid; // Get Firebase Authentication UID
 
@@ -84,15 +90,17 @@ class AuthRepository {
       });
 
       // Step 3: Now check if user exists (THIS SHOULD ALWAYS BE TRUE)
-      DocumentSnapshot userDoc = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(userId)
-          .get();
+      DocumentSnapshot userDoc =
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(userId)
+              .get();
 
       if (!userDoc.exists) {
         throw FirebaseAuthException(
-            code: "ERROR_FIRESTORE_WRITE",
-            message: "User registration failed in Firestore.");
+          code: "ERROR_FIRESTORE_WRITE",
+          message: "User registration failed in Firestore.",
+        );
       }
 
       return newUser;
@@ -104,7 +112,7 @@ class AuthRepository {
   Stream<User?> authStateChanges() {
     return _auth.authStateChanges();
   }
-  
+
   User? getCurrentUser() {
     return _auth.currentUser;
   }

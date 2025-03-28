@@ -2,7 +2,6 @@ import 'package:edusmart/config/app_strings.dart';
 import 'package:edusmart/core/utils/validators.dart';
 import 'package:edusmart/features/auth/viewmodel/auth_viewmodel.dart';
 import 'package:edusmart/features/auth/widgets/forgot_password_dialog.dart';
-import 'package:edusmart/providers/auth_provider.dart';
 import 'package:edusmart/widgets/custom_button.dart';
 import 'package:edusmart/widgets/custom_textfield.dart';
 import 'package:edusmart/widgets/loading_indicator.dart';
@@ -22,6 +21,7 @@ class _LoginFormState extends ConsumerState<LoginForm> {
   final _passwordController = TextEditingController();
   bool _isLoading = false;
 
+  //login
   void _login() async {
     if (!_formKey.currentState!.validate()) return;
       try {
@@ -45,6 +45,25 @@ class _LoginFormState extends ConsumerState<LoginForm> {
         setState(() => _isLoading = false);
       }
   }
+
+  //logout
+  void _logout() async {
+  try {
+    await ref.read(authViewModelProvider).logout();
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(AppStrings.getText(context, "logout_successful")),
+      ),
+    );
+
+  } catch (e) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("Error: ${e.toString()}")),
+    );
+  }
+}
+
 
   @override
   Widget build(BuildContext context) {

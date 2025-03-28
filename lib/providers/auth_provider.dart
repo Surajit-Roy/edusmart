@@ -14,9 +14,9 @@ final authStateProvider = StreamProvider<User?>((ref) {
 });
 
 // Login Provider
-final loginProvider = FutureProvider.family<UserModel?, Map<String, String>>((ref, credentials) async {
+final loginProvider = FutureProvider.family<String?, Map<String, String>>((ref, credentials) async {
   final repo = ref.read(authRepositoryProvider);
-  return await repo.login(credentials['email']!, credentials['password']!); // Now correctly returns UserModel?
+  return await repo.login(credentials['email']!, credentials['password']!);
 });
 
 // Logout Provider
@@ -37,6 +37,6 @@ final registerUserProvider = FutureProvider.family<UserModel?, Map<String, Strin
     throw Exception("Invalid registration details");
   }
 
-  return await repo.register(fullName, email, password, role); // Now returning `UserModel?`
+  return await repo.register(fullName, email, password, role);
 });
 
