@@ -27,6 +27,6 @@ class LoginScreen extends StatelessWidget {
         onCancel: () {},
       );
     },
-    child: SafeArea(child: Scaffold(body: LoginForm())),
+    child: Scaffold(body: LoginForm()),
   );
 }

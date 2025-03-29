@@ -25,10 +25,19 @@ class EduSmartField extends StatelessWidget {
       obscureText: isPassword,
       keyboardType: keyboardType,
       validator: validator,
+      cursorColor: Colors.lightBlue,
       decoration: InputDecoration(
         hintText: hintText,
         prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
+          borderSide: const BorderSide(color: Colors.lightBlue),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
+          borderSide: const BorderSide(color: Colors.grey),
+        ),
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 12,
           vertical: 14,

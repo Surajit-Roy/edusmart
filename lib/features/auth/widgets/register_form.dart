@@ -111,33 +111,20 @@ class _RegisterFormState extends ConsumerState<RegisterForm> {
                         ),
                       ),
                   const SizedBox(height: 16),
-                  RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                          text: AppStrings.getText(context, "alreadyAcc"),
-                          style: const TextStyle(
-                            fontSize: 16,
-                            color: Colors.black,
-                          ),
-                        ),
-                        TextSpan(
-                          text: AppStrings.getText(context, "signin"),
-                          style: const TextStyle(
-                            fontSize: 16,
-                            color: Colors.lightBlue,
-                          ),
-                          recognizer:
-                              TapGestureRecognizer()
-                                ..onTap = () {
-                                  Navigator.pushReplacementNamed(
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children:[
+                      Text(AppStrings.getText(context, "alreadyAcc")),
+                      const SizedBox(width: 2,),
+                      InkWell(
+                        onTap: () {
+                          Navigator.pushReplacementNamed(
                                     context,
-                                    AppRoutes.login,
-                                  );
-                                },
-                        ),
-                      ],
-                    ),
+                                    AppRoutes.login);
+                        },
+                        child: Text(AppStrings.getText(context, "login"), style: TextStyle(color: Colors.lightBlue),),
+                      ),
+                    ]
                   ),
                 ],
               ),

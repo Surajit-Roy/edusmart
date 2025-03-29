@@ -19,5 +19,6 @@
   "signin": "Sign in",
   "alreadyAcc": "Already have an account? ",
   "registerhere": "Register Here",
-  "welcomeback": "Welcome Back"
+  "welcomeback": "Welcome Back",
+  "noAccount": "Don't have an account? "
 }
