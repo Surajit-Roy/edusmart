@@ -6,3 +6,6 @@ const splash = 'lib/assets/images/splash_loading.json';
 const login = 'lib/assets/images/login_anime.json';
 const blockchain = 'lib/assets/images/blockchain.png';
 const register = 'lib/assets/images/register_anime.json';
+const pending = 'lib/assets/images/pending.json';
+const approve = 'lib/assets/images/approve.json';
+const reject = 'lib/assets/images/reject.json';
