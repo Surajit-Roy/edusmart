@@ -25,18 +25,16 @@ final logoutProvider = FutureProvider<void>((ref) async {
   await repo.logout();
 });
 
-final registerUserProvider = FutureProvider.family<UserModel?, Map<String, String>>((ref, credentials) async {
+final registerUserProvider = FutureProvider.family<UserModel?, Map<String, dynamic>>((ref, credentials) async {
   final repo = ref.read(authRepositoryProvider);
 
-  final fullName = credentials['fullName'] ?? '';
-  final email = credentials['email'] ?? '';
-  final password = credentials['password'] ?? '';
-  final role = credentials['role'] ?? 'student';
+  final UserModel userModel = credentials['userModel'] as UserModel;
+  final String password = credentials['password'] as String;
 
-  if (fullName.isEmpty || email.isEmpty || password.isEmpty) {
+  if (userModel.fullName.isEmpty || userModel.email.isEmpty || password.isEmpty) {
     throw Exception("Invalid registration details");
   }
 
-  return await repo.register(fullName, email, password, role);
+  return await repo.register(userModel, password);
 });
 

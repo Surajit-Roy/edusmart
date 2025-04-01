@@ -20,5 +20,8 @@
   "alreadyAcc": "Already have an account? ",
   "registerhere": "Register Here",
   "welcomeback": "Welcome Back",
-  "noAccount": "Don't have an account? "
+  "noAccount": "Don't have an account? ",
+  "pendingApproval": "Your account is under review. Please wait for approval.",
+  "congratsApproval": "Congratulations! Your account has been approved.",
+  "failureApproval": "Sorry, your registration has been rejected."
 }

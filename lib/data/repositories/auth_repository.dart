@@ -5,33 +5,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 class AuthRepository {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  // Future<User?> login(String email, String password) async {
-  //   try {
-  //     UserCredential credential = await _auth.signInWithEmailAndPassword(
-  //       email: email,
-  //       password: password,
-  //     );
-  //     return credential.user;
-  //   } catch (e){
-  //     throw NetworkExceptions.handleException(e);
-  //   }
-  // }
-
   Future<void> logout() async {
     await _auth.signOut();
   }
 
-  // Future<User?> register(String email, String password) async {
-  //   try {
-  //     UserCredential credential = await _auth.createUserWithEmailAndPassword(
-  //       email: email,
-  //       password: password,
-  //     );
-  //     return credential.user;
-  //   } catch (e) {
-  //     throw NetworkExceptions.handleException(e);
-  //   }
-  // }
 
   // Login and Fetch User ID
   Future<String?> login(String email, String password) async {
@@ -55,14 +32,12 @@ class AuthRepository {
 
   // Register User with Dynamic Data
   Future<UserModel?> register(
-    String name,
-    String email,
-    String password,
-    String role,
+    UserModel userModel,
+    String password
   ) async {
     try {
       UserCredential credential = await _auth.createUserWithEmailAndPassword(
-        email: email,
+        email: userModel.email,
         password: password,
       );
 
@@ -78,16 +53,19 @@ class AuthRepository {
       // Step 2: Save user details in Firestore **BEFORE checking**
       UserModel newUser = UserModel(
         id: userId,
-        name: name,
-        email: email,
-        role: role,
+        fullName: userModel.fullName,
+        email: userModel.email,
+        role: userModel.role,
+        phone: userModel.phone,
+        schoolId: userModel.schoolId,
+        className: userModel.className,
+        schoolName: userModel.schoolName,
+        status: userModel.status,
+        subject: userModel.subject,
+        rollNo: userModel.rollNo
       );
 
-      await FirebaseFirestore.instance.collection('users').doc(userId).set({
-        "name": name,
-        "email": email,
-        "role": role,
-      });
+      await FirebaseFirestore.instance.collection('users').doc(userId).set(newUser.toJson());
 
       // Step 3: Now check if user exists (THIS SHOULD ALWAYS BE TRUE)
       DocumentSnapshot userDoc =

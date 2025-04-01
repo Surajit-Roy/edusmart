@@ -1,7 +1,9 @@
+import 'dart:async';
+
 import 'package:edusmart/config/firebase_options.dart';
 import 'package:edusmart/core/utils/images.dart';
 import 'package:edusmart/providers/auth_provider.dart';
-import 'package:edusmart/widgets/loading_indicator.dart';
+import 'package:edusmart/providers/user_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -35,17 +37,23 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
     final authRepo = ref.read(authRepositoryProvider);
     final user = authRepo.getCurrentUser();
-    // Navigate after a delay
-    Future.delayed(const Duration(seconds: 2), () {
-      if (mounted) {
-        if (user != null) {
-          // Navigate to Login Screen if user is registered
-          Navigator.pushReplacementNamed(context, AppRoutes.login);
+
+    Future.delayed(const Duration(seconds: 3), () async{
+    if (mounted) {
+      if (user != null) {
+        final userModel = await ref.read(userProvider(user.uid).future);
+        if (userModel?.status == 'pending' || userModel?.status == 'rejected') {
+          Navigator.pushReplacementNamed(context, AppRoutes.accessStatus);
         } else {
-          Navigator.pushReplacementNamed(context, AppRoutes.navigationCard);
+          // Navigate to Home Screen if user is approved
+          Navigator.pushReplacementNamed(context, AppRoutes.login);
         }
+      } else {
+        // Navigate to Registration Selection Screen
+        Navigator.pushReplacementNamed(context, AppRoutes.navigationCard);
       }
-    });
+    }
+  });
   }
 
   @override

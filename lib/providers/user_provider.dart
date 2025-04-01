@@ -7,7 +7,7 @@ final userRepositoryProvider = Provider<UserRepository>((ref) {
 });
 
 final userProvider = FutureProvider.family<UserModel?, String>((ref, userId) async {
-  final repo = ref.read(userRepositoryProvider);
+  final repo = ref.watch(userRepositoryProvider);
   return await repo.getUserById(userId);
 });
 

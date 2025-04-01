@@ -5,6 +5,7 @@ class AppRoutes {
   // Authentication
   static const String login = '/login';
   static const String register = '/register';
+  static const String accessStatus = '/accessStatus';
 
   // Dashboards
   static const String adminDashboard = '/adminDashboard';

@@ -1,3 +1,4 @@
+import 'package:edusmart/features/auth/view/access_status.dart';
 import 'package:edusmart/features/auth/view/login_screen.dart';
 import 'package:edusmart/features/auth/view/register_screen.dart';
 import 'package:edusmart/features/tour/navigation_card_screen.dart';
@@ -15,6 +16,7 @@ class AppPages {
     // Authentication
     AppRoutes.login: (context) => const LoginScreen(),
     AppRoutes.register: (context) => const RegisterScreen(),
+    AppRoutes.accessStatus: (context) => const AccessStatusPage(),
 
     // Dashboards
     // AppRoutes.adminDashboard: (context) => const AdminDashboard(),
